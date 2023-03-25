@@ -1,0 +1,19 @@
+ WITH STEP1 AS 
+ (SELECT a.name, b.salary, c.friend_id
+from students a
+join packages b
+ON a.id=b.id 
+join friends c
+ON a.id=c.id)
+, STEP2 AS (
+SELECT x.name, x.salary, y.name as best_friend , z.salary as best_friend_salary
+FROM STEP1 x
+JOIN students y
+on x.friend_id=y.id
+JOIN packages z
+on x.friend_id=z.id
+)
+SELECT name
+FROM STEP2
+WHERE salary<best_friend_salary
+ORDER BY best_friend_salary
