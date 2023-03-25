@@ -1,0 +1,12 @@
+with STEP1 as (
+  select a.x,
+    a.y,
+    count(*) as cnt
+  from functions as a
+  join functions as b 
+ on a.x = b.y and a.y = b.x
+  group by a.x, a.y
+  )
+select x, y from STEP1
+where x < y or (x = y and cnt > 1)
+order by x;
