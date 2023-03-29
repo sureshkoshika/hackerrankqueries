@@ -1,0 +1,19 @@
+WITH STEP1 AS
+           (SELECT 1 as total, start_date 
+             from projects
+           where start_date not in (select end_date
+                                    from projects))
+    ,  STEP2 AS
+           ( SELECT 1 as total, end_date
+             from projects
+            where end_date not in (SELECT start_date 
+                                   from projects))
+           
+SELECT a.start_date
+      , min(b.end_date) as end
+from step1 a
+join step2 b
+ON a.total=b.total
+where a.start_date < b.end_date 
+group by 1
+order by datediff(min(end_date),start_date), start_date;
