@@ -16,4 +16,4 @@ join step2 b
 ON a.total=b.total
 where a.start_date < b.end_date 
 group by 1
-order by datediff(min(end_date),start_date), start_date;
+order by datediff(min(b.end_date),a.start_date), a.start_date
